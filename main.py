@@ -13,6 +13,8 @@ def isint(obj):
         return False
 
 
+
+
 for line in f:
     if isint(line) == False and ' | ' not in line and line != '\n':
         dishes = line.strip()
@@ -31,4 +33,24 @@ for line in f:
         continue
 
 # print(cook_book)
+
+def get_shop_list_by_dishes(dishes, person_count):
+    res = {}
+    for dish in dishes:
+        for items in cook_book[dish]:
+            for key in items:
+                if res.get(items[key], False):
+                    res[items[key]]['quantity'] += items['quantity']
+                else:
+                    if key == 'ingredient_name':
+                        res[items[key]] = {'measure': items['measure'], 'quantity': items['quantity']}
+    for ingredient in res:
+        res[ingredient]['quantity'] *= person_count
+
+    return res
+
+print(get_shop_list_by_dishes(['Омлет', 'Фахитос'], 2))
+
+
+
 
